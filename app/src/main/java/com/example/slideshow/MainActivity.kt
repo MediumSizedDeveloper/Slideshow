@@ -55,10 +55,6 @@ fun SlideshowApp() {
     // State to track the input text. Recompose when initial value "1" changes
     var inputText by remember { mutableStateOf(TextFieldValue("1")) }
 
-    // State to show error message
-    //var showError by remember { mutableStateOf(false) }
-    // State to store error message
-    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
