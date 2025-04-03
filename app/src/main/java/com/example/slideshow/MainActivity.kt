@@ -6,33 +6,46 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.slideshow.data.Datasource
+import com.example.slideshow.model.Picture
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                SlideshowApp()
+                SlideScrollApp()
             }
         }
     }
 }
 
 @Composable
+fun SlideScrollApp(){
+    PictureList(
+        pictureList = Datasource().loadImages(),
+    )
+}
+
+@Composable
 fun SlideshowApp() {
     // Image resources
     val imageResources = listOf(
-        R.drawable.image1,
+        R.drawable.abstract_flower,
         R.drawable.image2,
         R.drawable.image3,
         R.drawable.image4,
@@ -150,6 +163,42 @@ fun SlideshowApp() {
             ) {
                 Text("Go")
             }
+        }
+    }
+}
+
+// template for a single picture
+@Composable
+fun ImageCard(picture: Picture, modifier: Modifier = Modifier) {
+    Card(modifier = modifier){
+        Column{
+            Image(
+                painter = painterResource(picture.imageResourceId),
+                contentDescription = stringResource(picture.stringResourceId),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(194.dp),
+                contentScale = ContentScale.Crop
+            )
+
+            Text(
+                text = LocalContext.current.getString(picture.stringResourceId),
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.headlineSmall
+            )
+        }
+    }
+}
+
+// a lazy column wrapper for a list of pictures, passed into its first parameter
+@Composable
+fun PictureList(pictureList: List<Picture>, modifier: Modifier = Modifier) {
+    LazyColumn(modifier = modifier){
+        items(pictureList){  //for each picture in pictureList, ImageCard() is called
+            picture -> ImageCard(
+                picture = picture,
+                modifier = Modifier.padding(8.dp)
+            )
         }
     }
 }

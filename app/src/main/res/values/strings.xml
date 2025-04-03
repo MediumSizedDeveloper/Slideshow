@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Slideshow</string>
+    <string name="abstractflower"> Abstract floral art </string>,
+    <string name="image2"> Morning sun over blue lake</string>,
+    <string name="image3"> River flowing through mountain range</string>,
+    <string name="image4"> Waterfall in the forest</string>,
+    <string name="image5"> Cave on by the sea</string>
 </resources>
